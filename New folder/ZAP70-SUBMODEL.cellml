@@ -1,0 +1,248 @@
+<?xml version='1.0'?>
+<model name="zap70_activation" xmlns="http://www.cellml.org/cellml/1.0#" xmlns:cellml="http://www.cellml.org/cellml/1.0#">
+    <!--
+*******************************************************
+***         U   N   I   T   S                       ***
+*******************************************************
+-->
+    <units name="um">
+        <unit prefix="micro" units="mole"/>
+        <unit exponent="-1" units="litre"/>
+    </units>
+    <units name="first_order_rate_constant">
+        <unit exponent="-1" units="second"/>
+    </units>
+    <units name="second_order_rate_constant">
+        <unit exponent="-1" units="um"/>
+        <unit exponent="-1" units="second"/>
+    </units>
+    <units name="flux">
+        <unit units="um"/>
+        <unit exponent="-1" units="second"/>
+    </units>
+    <!--
+*********************************************************
+***       C   O   M   P   O   N   E   N   T   S       ***
+*********************************************************
+-->
+    <component name="enviroument">
+        <variable name="time" public_interface="out" units="second"/>
+    </component>
+    <component name="zap70">
+        <variable name="time" public_interface="in" units="second"/>
+        <variable name="J1" units="flux"/>
+        <variable name="J2" units="flux"/>
+        <variable name="J3" units="flux"/>
+        <variable name="J4" units="flux"/>
+        <variable name="J5" units="flux"/>
+        <variable name="J41" public_interface="in" units="flux"/>
+        <variable name="k_f1" public_interface="in" units="second_order_rate_constant"/>
+        <variable name="k_b1" public_interface="in" units="second_order_rate_constant"/>
+        <variable name="k_f2" public_interface="in" units="second_order_rate_constant"/>
+        <variable name="k_b2" public_interface="in" units="first_order_rate_constant"/>
+        <variable name="k_f3" public_interface="in" units="second_order_rate_constant"/>
+        <variable name="k_b3" public_interface="in" units="second_order_rate_constant"/>
+        <variable name="k_f4" public_interface="in" units="first_order_rate_constant"/>
+        <variable name="k_b4" public_interface="in" units="second_order_rate_constant"/>
+        <variable name="k_f5" public_interface="in" units="first_order_rate_constant"/>
+        <variable initial_value="0.600" name="DAP12" units="um"/>
+        <variable initial_value="2.00615" name="plck" public_interface="out" units="um"/>
+        <variable initial_value="1" name="zap70" public_interface="out" units="um"/>
+        <variable initial_value="0" name="pDAP12" units="um"/>
+        <variable initial_value="0" name="lck" public_interface="out" units="um"/>
+        <variable initial_value="0" name="pDAP12zap70" units="um"/>
+        <variable initial_value="0" name="pDAP12pzap70" units="um"/>
+        <variable name="pzap70" public_interface="in" units="um"/>
+        <variable initial_value="0" name="pDAP12p2zap70" units="um"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>J1</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <times/>
+                        <ci>kf1</ci>
+                        <ci>DAP12</ci>
+                        <ci>plck</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>kb1</ci>
+                        <ci>pDAP12</ci>
+                        <ci>lck</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>J2</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <times/>
+                        <ci>kf2</ci>
+                        <ci>pDAP12</ci>
+                        <ci>zap70</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>kb2</ci>
+                        <ci>pDAP12zap70</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>J3</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <times/>
+                        <ci>kf3</ci>
+                        <ci>pDAP12zap70</ci>
+                        <ci>plck</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>kb3</ci>
+                        <ci>pDAP12pzap70</ci>
+                        <ci>lck</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>J4</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <times/>
+                        <ci>kf4</ci>
+                        <ci>pDAP12pzap70</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>kb4</ci>
+                        <ci>pDAP12</ci>
+                        <ci>pzap70</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>J5</ci>
+                <apply>
+                    <times/>
+                    <ci>kf5</ci>
+                    <ci>pDAP12pzap70</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>DAP12</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <ci>J41</ci>
+                    <ci>J1</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>pDAP12</ci>
+                </apply>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <ci>J1</ci>
+                        <ci>J2</ci>
+                    </apply>
+                    <ci>J4</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>pDAP12zap70</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <ci>J2</ci>
+                    <ci>J3</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>pDAP12pzap70</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <minus/>
+                        <ci>J3</ci>
+                        <ci>J4</ci>
+                    </apply>
+                    <ci>J5</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>zap70</ci>
+                </apply>
+                <ci>J4</ci>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>pzap70</ci>
+                </apply>
+                <ci>J4</ci>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>pDAP12p2zap70</ci>
+                </apply>
+                <ci>J5</ci>
+            </apply>
+        </math>
+    </component>
+    <connection>
+        <map_components component_1="zap70" component_2="enviroument"/>
+        <map_variables variable_1="time" variable_2="time"/>
+    </connection>
+</model>
